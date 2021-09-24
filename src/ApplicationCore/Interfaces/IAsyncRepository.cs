@@ -13,16 +13,16 @@ namespace ApplicationCore
         Task<T> GetByIdAsync(int id);
         Task<List<T>> ListAllAsync();
 
-        Task<T> ListAsync(ISpecification<T> spec);
+        Task<List<T>> ListAsync(ISpecification<T> spec);
 
         Task<T> AddAsync(T entity);
 
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
 
-        Task CountAsync(ISpecification<T> spec);
-        Task FirstAsync(ISpecification<T> spec);
-        Task FirstOrDefaultAsync(ISpecification<T> spec);
+        Task<int> CountAsync(ISpecification<T> spec);
+        Task<T> FirstAsync(ISpecification<T> spec);
+        Task<T> FirstOrDefaultAsync(ISpecification<T> spec);
 
 
 

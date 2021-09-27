@@ -12,7 +12,7 @@
         public string PictureUri { get; set; } // dosyanın yolunu tutacağız.
 
         public int CategoryId { get; set; }
-        public Category category { get; set; }
+        public Category Category { get; set; }
 
         public int BrandId { get; set; }
         public Brand Brand { get; set; }

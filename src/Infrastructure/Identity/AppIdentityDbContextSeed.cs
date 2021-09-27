@@ -1,39 +1,31 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using ApplicationCore.Constants;
+using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Identity
 {
     public class AppIdentityDbContextSeed
     {
-
-        public static async Task SeedAsync(RoleManager<IdentityRole> roleManager , UserManager<ApplicationUser> userManager)
+        public static async Task SeedAsync(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
         {
-            await roleManager.CreateAsync(new IdentityRole("Admin"));
+            await roleManager.CreateAsync(new IdentityRole(AuthorizationConstants.Roles.ADMINISTRATOR));
 
             var demoUser = new ApplicationUser()
             {
-                UserName = "demouser@example.com",
-                Email = "demouser@example.com",
+                UserName = AuthorizationConstants.DEFAULT_DEMO_USER,
+                Email = AuthorizationConstants.DEFAULT_DEMO_USER,
                 EmailConfirmed = true
             };
+            await userManager.CreateAsync(demoUser, AuthorizationConstants.DEFAULT_PASSWORD);
 
-            await userManager.CreateAsync(demoUser, "P@ssword1");
-
-            var AdminUser = new ApplicationUser()
+            var adminUser = new ApplicationUser()
             {
-                UserName = "admin@example.com",
-                Email = "admin@example.com",
+                UserName = AuthorizationConstants.DEFAULT_ADMIN_USER,
+                Email = AuthorizationConstants.DEFAULT_ADMIN_USER,
                 EmailConfirmed = true
             };
-            await userManager.CreateAsync(AdminUser, "P@ssword1");
-            await userManager.AddToRoleAsync(AdminUser, "Admin");
-
+            await userManager.CreateAsync(adminUser, AuthorizationConstants.DEFAULT_PASSWORD);
+            await userManager.AddToRoleAsync(adminUser, AuthorizationConstants.Roles.ADMINISTRATOR);
         }
-
-
     }
 }

@@ -1,3 +1,4 @@
+using ApplicationCore.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Builder;
@@ -7,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Web.Interfaces;
+using Web.Services;
 
 namespace Web
 {
@@ -26,6 +29,17 @@ namespace Web
             services.AddDbContext<AppIdentityDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("AppIdentityDbContext")));
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("ApplicationDbContext")));
+
+            //Eger interfacelerimiz generic olmasaydý 
+            //services.AddScoped<IAsyncRepository, EFRepository>(); 
+            //olarak yazacaktýk ama generic olduðu için aþaðýdaki gibi
+
+            //Her ne zaman IAsyncRepository belirli bir türle (T) generic olarak talep edildiðinde ayný türle EFRepository<T>
+            //hizmeti enjecte edilecektir.
+            services.AddScoped(typeof(IAsyncRepository<>), typeof(EFRepository<>));
+
+            //Her ne zaman Controlerde IHomeViewModelService interface i istenilirse onu implement eden HomeViewModelService hizmeti enjecte edilecektir
+            services.AddScoped<IHomeViewModelService, HomeViewModelService>();
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()

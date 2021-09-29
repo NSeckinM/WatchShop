@@ -1,4 +1,4 @@
-﻿namespace ApplicationCore.Etities
+﻿namespace ApplicationCore.Entities
 {
     public class Brand : BaseEntity
     {

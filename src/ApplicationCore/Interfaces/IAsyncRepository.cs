@@ -1,4 +1,4 @@
-﻿using ApplicationCore.Etities;
+﻿using ApplicationCore.Entities;
 using Ardalis.Specification;
 using System.Collections.Generic;
 using System.Threading.Tasks;

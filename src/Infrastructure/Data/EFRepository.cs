@@ -1,4 +1,4 @@
-﻿using ApplicationCore.Etities;
+﻿using ApplicationCore.Entities;
 using ApplicationCore.Interfaces;
 using Ardalis.Specification;
 using Ardalis.Specification.EntityFrameworkCore;

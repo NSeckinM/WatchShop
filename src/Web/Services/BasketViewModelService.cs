@@ -6,6 +6,7 @@ using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Web.Interfaces;
+using Web.ViewModels;
 
 namespace Web.Services
 {
@@ -13,17 +14,15 @@ namespace Web.Services
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IAsyncRepository<Basket> _basketRepository;
+        private readonly IBasketService _basketService;
 
-        public BasketViewModelService(IHttpContextAccessor httpContextAccessor, IAsyncRepository<Basket> basketRepository)
+        public BasketViewModelService(IHttpContextAccessor httpContextAccessor, IAsyncRepository<Basket> basketRepository,IBasketService basketService)
         {
             _httpContextAccessor = httpContextAccessor;
             _basketRepository = basketRepository;
+            _basketService = basketService;
         }
 
-        public async Task<int> BasketItemsCountAsync()
-        {
-            return 0;
-        }
 
         public async Task<int> GetOrCreateBasketIdAsync()
         {
@@ -49,7 +48,7 @@ namespace Web.Services
             }
             //Is there a basket cookie
             var anonymousUserId = _httpContextAccessor.HttpContext.Request.Cookies[Constants.BASKET_COOKIENAME];
-            if (anonymousUserId != null) 
+            if (!string.IsNullOrEmpty(anonymousUserId)) 
             {
                 //Find the basket and return its id. 
                 var spec = new BasketSpecification(anonymousUserId);
@@ -73,6 +72,24 @@ namespace Web.Services
             };
 
             return await _basketRepository.AddAsync(basket);
+        }
+
+
+        public async Task<BasketItemAddedViewModel> AddItemToBasket(int productId, int quantity)
+        {
+            //Get or Create Basket id
+            var basketId = await GetOrCreateBasketIdAsync();
+
+            //Add İtem to the basket
+            await _basketService.AddItemToBasketAsync(basketId, productId, quantity);
+
+            //return items count in the basket
+            return new BasketItemAddedViewModel()
+            {
+                ItemsCount = await _basketService.BasketItemsCountAsync(basketId)
+            };
+
+
         }
     }
 }

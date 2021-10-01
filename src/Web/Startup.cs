@@ -1,4 +1,5 @@
 using ApplicationCore.Interfaces;
+using ApplicationCore.Services;
 using Infrastructure.Data;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Builder;
@@ -38,8 +39,14 @@ namespace Web
             //hizmeti enjecte edilecektir.
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EFRepository<>));
 
-            //Her ne zaman Controlerde IHomeViewModelService interface i istenilirse onu implement eden HomeViewModelService hizmeti enjecte edilecektir
+            //Her ne zaman Controlerde IHomeViewModelService interface i istenilirse onu implement eden HomeViewModelService hizmeti enjecte edilecektir diðerleride ayný þekilde.
+
+            services.AddScoped<IBasketService, BasketService>();
             services.AddScoped<IHomeViewModelService, HomeViewModelService>();
+            services.AddScoped<IBasketViewModelService, BasketViewModelService>();
+
+
+
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()

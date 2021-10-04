@@ -28,5 +28,13 @@ namespace Web.Controllers
 
             return Json(await _basketViewModelService.AddItemToBasketAsync(productId,quantity));
         }
+
+
+        [HttpPost,ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(Dictionary<int,int> quantities)
+        {
+            return RedirectToAction("Index");
+        }
+
     }
 }

@@ -61,5 +61,11 @@ namespace ApplicationCore.Services
             return await _basketItemRepository.CountAsync(spec);
 
         }
+
+        public Task SetQantities(int BasketId, Dictionary<int, int> quantities)
+        {
+            //TODO: get basket and update items
+            return null;
+        }
     }
 }

@@ -90,3 +90,12 @@ body {
     .product-image:hover {
         padding: .2rem;
     }
+
+/*Basket Start*/
+
+.number-input > .quantity{
+    width : 70px;
+}
+
+
+/*Basket End*/

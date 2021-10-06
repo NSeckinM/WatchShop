@@ -19,7 +19,7 @@ namespace ApplicationCore.Interfaces
 
         Task DeleteBasketAsync(int basketId);
 
-        Task TransferBasketAsync(string fromUserId, string toBuyerId );
+        Task TransferBasketAsync(string fromBuyerId, string toBuyerId );
 
     }
 }

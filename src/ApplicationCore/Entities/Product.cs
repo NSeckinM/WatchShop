@@ -1,4 +1,5 @@
-﻿namespace ApplicationCore.Entities
+﻿
+namespace ApplicationCore.Entities
 {
     public class Product : BaseEntity
     {

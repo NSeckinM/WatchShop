@@ -99,16 +99,38 @@ namespace ApplicationCore.Services
             await _basketRepository.UpdateAsync(basket);
         }
 
-        public Task TransferBasketAsync(string fromUserId, string toBuyerId)
+        public async Task TransferBasketAsync(string fromBuyerId, string toBuyerId)
         {
-            //get fromBuyer basket (if null, return)
+            //get from buyer basket(if null,return)
+            var specFrom = new BasketWithItemsSpecification(fromBuyerId);
+            Basket basketFrom = await _basketRepository.FirstOrDefaultAsync(specFrom);
+            if (basketFrom == null) return;
 
-            //get toBuyer basket (if null, create)
-
+            //get toBuyer basket (if null,creat)
+            var specTo = new BasketWithItemsSpecification(toBuyerId);
+            Basket basketTo = await _basketRepository.FirstOrDefaultAsync(specTo);
+            if (basketTo == null) basketTo = new Basket() { BuyerId = toBuyerId };
             //transfer items
+            foreach (var item in basketFrom.Items)
+            {
+                var targetItem = basketTo.Items.FirstOrDefault(x => x.ProductId == item.ProductId);
 
+                if (targetItem == null)
+                {
+                    basketTo.Items.Add(new BasketItem()
+                    {
+                        ProductId = item.ProductId,
+                        Quantity = item.Quantity
+                    });
+                }
+                else
+                {
+                    targetItem.Quantity += item.Quantity;
+                }
+            }
+            await _basketRepository.UpdateAsync(basketTo);
             //delete fromBuyerBasket
-
+            await _basketRepository.DeleteAsync(basketFrom);
 
         }
 

@@ -13,8 +13,7 @@ namespace Web.Interfaces
 
         Task<NavbarBasketViewModel> GetNavbarBasketViewModelAsync();
 
-
-
+        Task TransferBasketAsync(string userId);
 
     }
 }

@@ -42,6 +42,7 @@ namespace Web
             //Her ne zaman Controlerde IHomeViewModelService interface i istenilirse onu implement eden HomeViewModelService hizmeti enjecte edilecektir diðerleride ayný þekilde.
 
             services.AddScoped<IBasketService, BasketService>();
+            services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IHomeViewModelService, HomeViewModelService>();
             services.AddScoped<IBasketViewModelService, BasketViewModelService>();
 
